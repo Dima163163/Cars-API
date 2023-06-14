@@ -7,7 +7,7 @@ const spanCar = document.querySelector('.span-car')
 	return await new Promise((resolve, reject) => {
 			fetch(url)
 				.then(response => resolve(response.json()))
-				.catch(err => reject(err))
+				.catch(err => reject(console.log('Ошибка', err)))
 	})
 
 } 
@@ -25,17 +25,17 @@ const renderCars = (data) => {
 	
 }
 
-const carSearch = async (data, value) => {
+const carSearch = async (data, element) => {
+	const valueSelect = element.options[element.selectedIndex].value;
 	const response = await data(urlCars)
 
-	const search = response.cars.filter(car => car.brand === value)
-	
+	const search = response.cars.filter(car => car.brand === valueSelect)
+
 	renderCars(search)
 	
 }
 
 
 select.addEventListener('change', () => {
-	const selectValue = select.options[select.selectedIndex].value;
-	carSearch(getCars, selectValue)
+	carSearch(getCars, select)
 })
